@@ -79,6 +79,7 @@ namespace Intune_Deployment_Troubleshooter
                     }
 
                     string[] EventViewerLogs = {
+                        "Application.evtx",
                         "microsoft-windows-aad.*operational.*",
                         "microsoft-windows-appxdeploymentserver.*operational.*",
                         "microsoft-windows-assignedaccess.*admin.*",
@@ -94,7 +95,10 @@ namespace Intune_Deployment_Troubleshooter
                         "microsoft-windows-moderndeployment-diagnostics-provider.*managementservice.*",
                         "microsoft-windows-provisioning-diagnostics-provider.*admin.*",
                         "microsoft-windows-shell-core.*operational.*",
-                        "microsoft-windows-user device registration.*admin.*"
+                        "microsoft-windows-user device registration.*admin.*",
+                        "Security.evtx",
+                        "Setup.evtx",
+                        "System.evtx"
                     };
 
                     foreach (string eventLogs in EventViewerLogs)

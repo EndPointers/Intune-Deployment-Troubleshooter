@@ -13,6 +13,7 @@ using System.Windows.Forms;
 using System.Data;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Diagnostics.Eventing.Reader;
+using System.Diagnostics;
 
 namespace Intune_Deployment_Troubleshooter
 {
@@ -78,28 +79,37 @@ namespace Intune_Deployment_Troubleshooter
                     }
 
                     string[] EventViewerLogs = {
-                        "microsoft-windows-aad-operational.evtx",
-                        "microsoft-windows-appxdeploymentserver-operational.evtx",
-                        "microsoft-windows-assignedaccess-admin.evtx",
-                        "microsoft-windows-assignedaccess-operational.evtx",
-                        "microsoft-windows-assignedaccessbroker-admin.evtx",
-                        "microsoft-windows-assignedaccessbroker-operational.evtx",
-                        "microsoft-windows-crypto-ncrypt-operational.evtx",
-                        "microsoft-windows-devicemanagement-enterprise-diagnostics-provider-admin.evtx",
-                        "microsoft-windows-devicemanagement-enterprise-diagnostics-provider-autopilot.evtx",
-                        "microsoft-windows-devicemanagement-enterprise-diagnostics-provider-debug.evtx",
-                        "microsoft-windows-devicemanagement-enterprise-diagnostics-provider-operational.evtx",
-                        "microsoft-windows-moderndeployment-diagnostics-provider-autopilot.evtx",
-                        "microsoft-windows-moderndeployment-diagnostics-provider-diagnostics.evtx",
-                        "microsoft-windows-moderndeployment-diagnostics-provider-managementservice.evtx",
-                        "microsoft-windows-provisioning-diagnostics-provider-admin.evtx",
-                        "microsoft-windows-shell-core-operational.evtx",
-                        "microsoft-windows-user device registration-admin.evtx" 
+                        "microsoft-windows-aad.*operational.*",
+                        "microsoft-windows-appxdeploymentserver.*operational.*",
+                        "microsoft-windows-assignedaccess.*admin.*",
+                        "microsoft-windows-assignedaccess.*operational.*",
+                        "microsoft-windows-assignedaccessbroker.*admin.*",
+                        "microsoft-windows-assignedaccessbroker.*operational.*",
+                        "microsoft-windows-crypto-ncrypt.*operational.*",
+                        "microsoft-windows-devicemanagement-enterprise-diagnostics-provider.*admin.*",
+                        "microsoft-windows-devicemanagement-enterprise-diagnostics-provider.*autopilot.*",
+                        "microsoft-windows-devicemanagement-enterprise-diagnostics-provider.*operational.*",
+                        "microsoft-windows-moderndeployment-diagnostics-provider.*autopilot.*",
+                        "microsoft-windows-moderndeployment-diagnostics-provider.*diagnostics.*",
+                        "microsoft-windows-moderndeployment-diagnostics-provider.*managementservice.*",
+                        "microsoft-windows-provisioning-diagnostics-provider.*admin.*",
+                        "microsoft-windows-shell-core.*operational.*",
+                        "microsoft-windows-user device registration.*admin.*"
                     };
 
-                    foreach(string eventLogs in EventViewerLogs)
+                    foreach (string eventLogs in EventViewerLogs)
                     {
-                        treeView1.Nodes["root"].Nodes["evt"].Nodes.Add(eventLogs);
+                        DirectoryInfo d2 = new DirectoryInfo(@"\\" + host + "\\C$\\Windows\\System32\\winevt\\Logs");
+
+                        FileInfo[] Files2 = d2.GetFiles("*.evtx");
+
+                        foreach (FileInfo file2 in Files2)
+                        {
+                            if (Regex.IsMatch(file2.Name, eventLogs, RegexOptions.IgnoreCase))
+                            {
+                                treeView1.Nodes["root"].Nodes["evt"].Nodes.Add(file2.Name);
+                            }
+                        }
                     }
 
                     treeView1.EndUpdate();
@@ -156,8 +166,6 @@ namespace Intune_Deployment_Troubleshooter
             bs.DataSource = dt;
             dataGridView2.DataSource = bs;
         }
-
-        //C:\WINDOWS\system32\eventvwr.exe <computername> /l:<logfile>
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -221,8 +229,24 @@ namespace Intune_Deployment_Troubleshooter
                 }
                 if (e.Node.Parent.Text == "Event Viewer Logs")
                 {
-                    //FIX: File not Found!
-                    System.Diagnostics.Process.Start(Environment.GetFolderPath(Environment.SpecialFolder.Windows) + "\\system32\\eventvwr.exe " + textBox2.Text + " /l:" + "C:\\Windows\\System32\\winevt\\Logs\\" + e.Node.Text);
+                    ProcessStartInfo startInfo = new ProcessStartInfo();
+                    startInfo.FileName = "cmd.exe";
+                    startInfo.Arguments = "/K " + Environment.GetFolderPath(Environment.SpecialFolder.Windows) + "\\system32\\eventvwr.exe " + textBox2.Text + " /l:C:\\Windows\\System32\\winevt\\Logs\\" + e.Node.Text;
+                    startInfo.RedirectStandardOutput = true;
+                    startInfo.RedirectStandardError = true;
+                    startInfo.UseShellExecute = false;
+                    startInfo.CreateNoWindow = true;
+
+                    Process processTemp = new Process();
+                    processTemp.StartInfo = startInfo;
+                    processTemp.EnableRaisingEvents = true;
+                    try
+                    {
+                        processTemp.Start();
+                    } catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
                 }
             }
         }

@@ -59,7 +59,7 @@ namespace Intune_Deployment_Troubleshooter
                 try
                 {
                     ResetTreeView();
-                    dataGridView2.Rows.Clear();
+                    dt.Rows.Clear();
                     currentLogViewed = "";
 
                     syncConnectedDeviceToolStripMenuItem.Enabled = false;

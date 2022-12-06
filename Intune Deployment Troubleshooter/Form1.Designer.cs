@@ -291,7 +291,7 @@ namespace Intune_Deployment_Troubleshooter
             this.toolStripStatusLabel2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripStatusLabel2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(660, 17);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(691, 17);
             this.toolStripStatusLabel2.Spring = true;
             // 
             // imageList1
@@ -321,7 +321,6 @@ namespace Intune_Deployment_Troubleshooter
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
-            this.MinimizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Intune Deployment Troubleshooter";

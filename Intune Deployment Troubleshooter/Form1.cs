@@ -125,6 +125,7 @@ namespace Intune_Deployment_Troubleshooter
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message);
+                    toolStripStatusLabel1.Text = "Not Connected";
                 }
             }
         }

@@ -50,8 +50,6 @@ namespace Intune_Deployment_Troubleshooter
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.treeView1 = new System.Windows.Forms.TreeView();
             this.panel2 = new System.Windows.Forms.Panel();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
@@ -59,11 +57,13 @@ namespace Intune_Deployment_Troubleshooter
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.treeView1 = new System.Windows.Forms.TreeView();
             this.menuStrip1.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.statusStrip1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -197,34 +197,15 @@ namespace Intune_Deployment_Troubleshooter
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
-            // panel1
-            // 
-            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left)));
-            this.panel1.Controls.Add(this.treeView1);
-            this.panel1.Location = new System.Drawing.Point(6, 55);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(218, 463);
-            this.panel1.TabIndex = 5;
-            // 
-            // treeView1
-            // 
-            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.treeView1.Location = new System.Drawing.Point(0, 0);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(218, 463);
-            this.treeView1.TabIndex = 0;
-            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
-            // 
             // panel2
             // 
             this.panel2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.panel2.Controls.Add(this.dataGridView2);
-            this.panel2.Location = new System.Drawing.Point(230, 55);
+            this.panel2.Location = new System.Drawing.Point(247, 55);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(558, 463);
+            this.panel2.Size = new System.Drawing.Size(541, 463);
             this.panel2.TabIndex = 6;
             // 
             // dataGridView2
@@ -266,7 +247,7 @@ namespace Intune_Deployment_Troubleshooter
             this.dataGridView2.RowHeadersVisible = false;
             this.dataGridView2.RowTemplate.Height = 25;
             this.dataGridView2.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView2.Size = new System.Drawing.Size(558, 463);
+            this.dataGridView2.Size = new System.Drawing.Size(541, 463);
             this.dataGridView2.TabIndex = 0;
             // 
             // statusStrip1
@@ -309,6 +290,25 @@ namespace Intune_Deployment_Troubleshooter
             this.timer1.Interval = 15000;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // panel1
+            // 
+            this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left)));
+            this.panel1.Controls.Add(this.treeView1);
+            this.panel1.Location = new System.Drawing.Point(6, 55);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(235, 463);
+            this.panel1.TabIndex = 5;
+            // 
+            // treeView1
+            // 
+            this.treeView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.treeView1.Location = new System.Drawing.Point(0, 0);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(235, 463);
+            this.treeView1.TabIndex = 0;
+            this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -326,11 +326,11 @@ namespace Intune_Deployment_Troubleshooter
             this.Text = "Intune Deployment Troubleshooter";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            this.panel1.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -344,7 +344,6 @@ namespace Intune_Deployment_Troubleshooter
         private TextBox textBox2;
         private Button button1;
         private ToolStripMenuItem aboutToolStripMenuItem;
-        private Panel panel1;
         private Panel panel2;
         private ToolStripMenuItem toolsToolStripMenuItem;
         private ToolStripMenuItem syncConnectedDeviceToolStripMenuItem;
@@ -355,12 +354,13 @@ namespace Intune_Deployment_Troubleshooter
         private ImageList imageList1;
         private DataGridView dataGridView2;
         private ToolStripMenuItem getConnectedDeviceInfoToolStripMenuItem;
-        private TreeView treeView1;
         private ToolStripMenuItem resetToolStripMenuItem;
         private ToolStripMenuItem logsToolStripMenuItem;
         private ToolStripMenuItem watcherOnToolStripMenuItem;
         private ToolStripMenuItem watcherOffToolStripMenuItem;
         private System.Windows.Forms.Timer timer1;
         private ToolStripStatusLabel toolStripStatusLabel2;
+        private Panel panel1;
+        private TreeView treeView1;
     }
 }

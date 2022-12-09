@@ -119,6 +119,7 @@ namespace Intune_Deployment_Troubleshooter
                     toolStripStatusLabel1.Text = "Connected";
                     syncConnectedDeviceToolStripMenuItem.Enabled = true;
                     getConnectedDeviceInfoToolStripMenuItem.Enabled = true;
+                    treeView1.Nodes[0].EnsureVisible();
                 }
                 catch (Exception ex)
                 {

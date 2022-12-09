@@ -38,9 +38,11 @@ namespace Intune_Deployment_Troubleshooter
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.findToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.findToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.resetToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.createToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            Form1.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.logsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.watcherOnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.watcherOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -73,6 +75,7 @@ namespace Intune_Deployment_Troubleshooter
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.fileToolStripMenuItem,
+            this.findToolStripMenuItem1,
             this.editToolStripMenuItem,
             this.logsToolStripMenuItem,
             this.toolsToolStripMenuItem,
@@ -98,28 +101,46 @@ namespace Intune_Deployment_Troubleshooter
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
+            // findToolStripMenuItem1
+            // 
+            this.findToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.findToolStripMenuItem});
+            this.findToolStripMenuItem1.Name = "findToolStripMenuItem1";
+            this.findToolStripMenuItem1.Size = new System.Drawing.Size(39, 20);
+            this.findToolStripMenuItem1.Text = "Edit";
+            // 
+            // findToolStripMenuItem
+            // 
+            this.findToolStripMenuItem.Enabled = false;
+            this.findToolStripMenuItem.Name = "findToolStripMenuItem";
+            this.findToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.findToolStripMenuItem.Text = "Find";
+            this.findToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
+            // 
             // editToolStripMenuItem
             // 
             this.editToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.findToolStripMenuItem,
-            this.resetToolStripMenuItem});
+            this.createToolStripMenuItem,
+            Form1.removeToolStripMenuItem});
             this.editToolStripMenuItem.Name = "editToolStripMenuItem";
             this.editToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
             this.editToolStripMenuItem.Text = "Filter";
             // 
-            // findToolStripMenuItem
+            // createToolStripMenuItem
             // 
-            this.findToolStripMenuItem.Name = "findToolStripMenuItem";
-            this.findToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
-            this.findToolStripMenuItem.Text = "Create";
-            this.findToolStripMenuItem.Click += new System.EventHandler(this.findToolStripMenuItem_Click);
+            this.createToolStripMenuItem.Enabled = false;
+            this.createToolStripMenuItem.Name = "createToolStripMenuItem";
+            this.createToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.createToolStripMenuItem.Text = "Create";
+            this.createToolStripMenuItem.Click += new System.EventHandler(this.createToolStripMenuItem_Click);
             // 
             // resetToolStripMenuItem
             // 
-            this.resetToolStripMenuItem.Name = "resetToolStripMenuItem";
-            this.resetToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
-            this.resetToolStripMenuItem.Text = "Remove";
-            this.resetToolStripMenuItem.Click += new System.EventHandler(this.resetToolStripMenuItem_Click);
+            Form1.removeToolStripMenuItem.Enabled = false;
+            Form1.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
+            Form1.removeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            Form1.removeToolStripMenuItem.Text = "Remove";
+            Form1.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
             // logsToolStripMenuItem
             // 
@@ -367,10 +388,10 @@ namespace Intune_Deployment_Troubleshooter
         private StatusStrip statusStrip1;
         private ToolStripStatusLabel toolStripStatusLabel1;
         private ToolStripMenuItem editToolStripMenuItem;
-        private ToolStripMenuItem findToolStripMenuItem;
+        private ToolStripMenuItem createToolStripMenuItem;
         private ImageList imageList1;
         private ToolStripMenuItem getConnectedDeviceInfoToolStripMenuItem;
-        private ToolStripMenuItem resetToolStripMenuItem;
+        public static ToolStripMenuItem removeToolStripMenuItem;
         private ToolStripMenuItem logsToolStripMenuItem;
         private ToolStripMenuItem watcherOnToolStripMenuItem;
         private ToolStripMenuItem watcherOffToolStripMenuItem;
@@ -384,5 +405,7 @@ namespace Intune_Deployment_Troubleshooter
         private Splitter splitter1;
         private Panel panel3;
         private DataGridView dataGridView1;
+        private ToolStripMenuItem findToolStripMenuItem1;
+        private ToolStripMenuItem findToolStripMenuItem;
     }
 }

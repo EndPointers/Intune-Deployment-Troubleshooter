@@ -29,13 +29,6 @@ namespace Intune_Deployment_Troubleshooter
         {
             InitializeComponent();
             textBox1.KeyUp += textBox1_KeyUp;
-            ResetTreeView();
-            dt.Columns.Add("Status", typeof(Image));
-            dt.Columns.Add("Time", typeof(string));
-            dt.Columns.Add("Thread", typeof(string));
-            dt.Columns.Add("Component", typeof(string));
-            dt.Columns.Add("Entry", typeof(string));
-            dt.Columns.Add("Type", typeof(string));
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -60,8 +53,13 @@ namespace Intune_Deployment_Troubleshooter
                 {
                     ResetTreeView();
                     dt.Rows.Clear();
+                    dt.Columns.Clear();
                     currentLogViewed = "";
 
+                    findToolStripMenuItem.Enabled = false;
+                    createToolStripMenuItem.Enabled = false;
+                    bs.RemoveFilter();
+                    removeToolStripMenuItem.Enabled = false;
                     syncConnectedDeviceToolStripMenuItem.Enabled = false;
                     getConnectedDeviceInfoToolStripMenuItem.Enabled = false;
                     watcherOffToolStripMenuItem.Enabled = false;
@@ -155,6 +153,12 @@ namespace Intune_Deployment_Troubleshooter
             var pattern = "<\\!\\[LOG\\[(.*?)\\]LOG\\]\\!><time=\"(.*?)\" date=\"(.*?)\" component=\"(.*?)\" context=\"(.*?)\" type=\"(.*?)\" thread=\"(.*?)\" file=\"(.*?)\">";
             string replace = "$2 $3~$7~$4~$1~$5~$6~$8`";
             string outData = Regex.Replace(logData, pattern, replace, RegexOptions.IgnoreCase);
+            dt.Columns.Add("Status", typeof(Image));
+            dt.Columns.Add("Time", typeof(string));
+            dt.Columns.Add("Thread", typeof(string));
+            dt.Columns.Add("Component", typeof(string));
+            dt.Columns.Add("Entry", typeof(string));
+            dt.Columns.Add("Type", typeof(string));
             foreach (string data in outData.Split("`"))
             {
                 string[] record = data.Split("~");
@@ -183,8 +187,8 @@ namespace Intune_Deployment_Troubleshooter
             Form4 frm4 = new Form4();
             frm4.ShowDialog();
         }
-        
-        private void findToolStripMenuItem_Click(object sender, EventArgs e)
+
+        private void createToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Form3 frm3 = new Form3();
             frm3.ShowDialog();
@@ -212,6 +216,7 @@ namespace Intune_Deployment_Troubleshooter
             try
             {
                 contents = File.ReadAllText("\\\\" + textBox1.Text + "\\C$\\ProgramData\\Microsoft\\IntuneManagementExtension\\Logs\\" + log);
+                createToolStripMenuItem.Enabled = true;
                 findToolStripMenuItem.Enabled = true;
                 BuildMDMLogViewer(contents);
                 watcherOffToolStripMenuItem.Enabled = true;
@@ -256,9 +261,10 @@ namespace Intune_Deployment_Troubleshooter
             }
         }
 
-        private void resetToolStripMenuItem_Click(object sender, EventArgs e)
+        private void removeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             bs.RemoveFilter();
+            Form1.removeToolStripMenuItem.Enabled = false;
         }
 
         private void watcherOffToolStripMenuItem_Click(object sender, EventArgs e)
@@ -289,5 +295,9 @@ namespace Intune_Deployment_Troubleshooter
             dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
         }
 
+        private void findToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            //form5
+        }
     }
 }

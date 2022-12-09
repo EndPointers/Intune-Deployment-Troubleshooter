@@ -54,6 +54,7 @@ namespace Intune_Deployment_Troubleshooter
                     ResetTreeView();
                     dt.Rows.Clear();
                     dt.Columns.Clear();
+                    ClearLogs();
                     currentLogViewed = "";
 
                     findToolStripMenuItem.Enabled = false;
@@ -73,6 +74,7 @@ namespace Intune_Deployment_Troubleshooter
 
                     foreach (FileInfo file in Files)
                     {
+                        File.Copy(file.FullName, Directory.GetCurrentDirectory() + "\\Logs\\" + file.Name, true);
                         treeView1.Nodes["root"].Nodes["mdm"].Nodes.Add(file.Name);
                     }
 
@@ -214,9 +216,10 @@ namespace Intune_Deployment_Troubleshooter
         {
             String contents = "";
             dt.Rows.Clear();
+            dt.Columns.Clear();
             try
             {
-                contents = File.ReadAllText("\\\\" + textBox1.Text + "\\C$\\ProgramData\\Microsoft\\IntuneManagementExtension\\Logs\\" + log);
+                contents = File.ReadAllText(Directory.GetCurrentDirectory() + "\\Logs\\" + log);
                 createToolStripMenuItem.Enabled = true;
                 findToolStripMenuItem.Enabled = true;
                 BuildMDMLogViewer(contents);
@@ -262,10 +265,19 @@ namespace Intune_Deployment_Troubleshooter
             }
         }
 
+        private void ClearLogs()
+        {
+            DirectoryInfo di = new DirectoryInfo(Directory.GetCurrentDirectory() + "\\Logs");
+            foreach (FileInfo file in di.GetFiles())
+            {
+                file.Delete();
+            }
+        }
+
         private void removeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             bs.RemoveFilter();
-            Form1.removeToolStripMenuItem.Enabled = false;
+            removeToolStripMenuItem.Enabled = false;
         }
 
         private void watcherOffToolStripMenuItem_Click(object sender, EventArgs e)
@@ -300,5 +312,11 @@ namespace Intune_Deployment_Troubleshooter
         {
             //form5
         }
+
+        private void Form1_FormClosing(object sender, EventArgs e)
+        {
+            ClearLogs();
+        }
+
     }
 }

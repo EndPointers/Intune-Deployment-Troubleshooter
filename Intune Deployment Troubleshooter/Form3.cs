@@ -27,17 +27,17 @@ namespace Intune_Deployment_Troubleshooter
             if (textChecked == true && timeChecked == false)
             {
                 Form1.bs.Filter = string.Format(columnName + " LIKE '%{0}%'", findVal);
-                Form1.removeToolStripMenuItem.Enabled = true;
+                //Form1.removeToolStripMenuItem.Enabled = true;
             }
             if(timeChecked == true && textChecked == false)
             {
                 Form1.bs.Filter = string.Format("Time LIKE '%{0}%'", timeVal);
-                Form1.removeToolStripMenuItem.Enabled = true;
+                //Form1.removeToolStripMenuItem.Enabled = true;
             }
             if(timeChecked == true && textChecked == true)
             {
                 Form1.bs.Filter = string.Format(columnName + " LIKE '%{0}%' AND Time LIKE '%{1}%'", findVal,timeVal);
-                Form1.removeToolStripMenuItem.Enabled = true;
+               // Form1.removeToolStripMenuItem.Enabled = true;
             }
         }
 

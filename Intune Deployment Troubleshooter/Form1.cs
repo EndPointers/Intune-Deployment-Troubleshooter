@@ -28,7 +28,7 @@ namespace Intune_Deployment_Troubleshooter
         public Form1()
         {
             InitializeComponent();
-            textBox2.KeyUp += textBox2_KeyUp;
+            textBox1.KeyUp += textBox1_KeyUp;
             ResetTreeView();
             dt.Columns.Add("Status", typeof(Image));
             dt.Columns.Add("Time", typeof(string));
@@ -54,7 +54,7 @@ namespace Intune_Deployment_Troubleshooter
 
         private void MakeConnection(string host)
         {
-            if (!String.IsNullOrEmpty(textBox2.Text))
+            if (!String.IsNullOrEmpty(textBox1.Text))
             {
                 try
                 {
@@ -132,7 +132,7 @@ namespace Intune_Deployment_Troubleshooter
 
         private void button1_Click(object sender, EventArgs e)
         {
-            MakeConnection(textBox2.Text);
+            MakeConnection(textBox1.Text);
         }
 
         private Image GetStatus(string entry)
@@ -169,7 +169,7 @@ namespace Intune_Deployment_Troubleshooter
                 }
             }
             bs.DataSource = dt;
-            dataGridView2.DataSource = bs;
+            dataGridView1.DataSource = bs;
         }
 
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
@@ -179,7 +179,7 @@ namespace Intune_Deployment_Troubleshooter
 
         private void syncConnectedDeviceToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            hostname = textBox2.Text;
+            hostname = textBox1.Text;
             Form4 frm4 = new Form4();
             frm4.ShowDialog();
         }
@@ -192,16 +192,16 @@ namespace Intune_Deployment_Troubleshooter
 
         private void getConnectedDeviceInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            hostname = textBox2.Text;
+            hostname = textBox1.Text;
             Form2 frm2 = new Form2();
             frm2.ShowDialog();
         }
 
-        private void textBox2_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
+        private void textBox1_KeyUp(object sender, System.Windows.Forms.KeyEventArgs e)
         {
             if(e.KeyCode == Keys.Enter)
             {
-                MakeConnection(textBox2.Text);
+                MakeConnection(textBox1.Text);
             }
         }
 
@@ -211,7 +211,7 @@ namespace Intune_Deployment_Troubleshooter
             dt.Rows.Clear();
             try
             {
-                contents = File.ReadAllText("\\\\" + textBox2.Text + "\\C$\\ProgramData\\Microsoft\\IntuneManagementExtension\\Logs\\" + log);
+                contents = File.ReadAllText("\\\\" + textBox1.Text + "\\C$\\ProgramData\\Microsoft\\IntuneManagementExtension\\Logs\\" + log);
                 findToolStripMenuItem.Enabled = true;
                 BuildMDMLogViewer(contents);
                 watcherOffToolStripMenuItem.Enabled = true;
@@ -236,7 +236,7 @@ namespace Intune_Deployment_Troubleshooter
                 {
                     ProcessStartInfo startInfo = new ProcessStartInfo();
                     startInfo.FileName = "cmd.exe";
-                    startInfo.Arguments = "/K " + Environment.GetFolderPath(Environment.SpecialFolder.Windows) + "\\system32\\eventvwr.exe " + textBox2.Text + " /l:C:\\Windows\\System32\\winevt\\Logs\\" + e.Node.Text;
+                    startInfo.Arguments = "/K " + Environment.GetFolderPath(Environment.SpecialFolder.Windows) + "\\system32\\eventvwr.exe " + textBox1.Text + " /l:C:\\Windows\\System32\\winevt\\Logs\\" + e.Node.Text;
                     startInfo.RedirectStandardOutput = true;
                     startInfo.RedirectStandardError = true;
                     startInfo.UseShellExecute = false;
@@ -286,7 +286,8 @@ namespace Intune_Deployment_Troubleshooter
         private void timer1_Tick(object sender, EventArgs e)
         {
             RefreshLogViewer(currentLogViewed);
-            dataGridView2.FirstDisplayedScrollingRowIndex = dataGridView2.RowCount - 1;
+            dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
         }
+
     }
 }

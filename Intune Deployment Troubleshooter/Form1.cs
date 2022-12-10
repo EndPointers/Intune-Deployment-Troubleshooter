@@ -317,7 +317,7 @@ namespace Intune_Deployment_Troubleshooter
 
         private void findToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form5 frm5 = new Form5();
+            Form5 frm5 = new Form5(this);
             frm5.ShowDialog();
         }
 

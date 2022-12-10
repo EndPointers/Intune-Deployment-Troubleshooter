@@ -404,7 +404,7 @@ namespace Intune_Deployment_Troubleshooter
         private TreeView treeView1;
         private Splitter splitter1;
         private Panel panel3;
-        private DataGridView dataGridView1;
+        public DataGridView dataGridView1;
         private ToolStripMenuItem findToolStripMenuItem1;
         private ToolStripMenuItem findToolStripMenuItem;
         public ToolStripMenuItem removeToolStripMenuItem;

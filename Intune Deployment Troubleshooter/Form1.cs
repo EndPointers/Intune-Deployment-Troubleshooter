@@ -22,7 +22,6 @@ namespace Intune_Deployment_Troubleshooter
         public static string hostname = "";
         public static DataTable dt = new DataTable();
         public static BindingSource bs = new BindingSource();
-
         private static string currentLogViewed = "";
 
         public Form1()
@@ -45,26 +44,34 @@ namespace Intune_Deployment_Troubleshooter
             treeView1.EndUpdate();
         }
 
+        private void ResetUIDefaults()
+        {
+            ResetTreeView();
+            dt.Rows.Clear();
+            dt.Columns.Clear();
+            ClearLogs();
+            currentLogViewed = "";
+            timer1.Enabled = false;
+            findToolStripMenuItem.Enabled = false;
+            createToolStripMenuItem.Enabled = false;
+            bs.RemoveFilter();
+            removeToolStripMenuItem.Enabled = false;
+            syncConnectedDeviceToolStripMenuItem.Enabled = false;
+            getConnectedDeviceInfoToolStripMenuItem.Enabled = false;
+            watcherOffToolStripMenuItem.Enabled = false;
+            watcherOnToolStripMenuItem.Enabled = false;
+            watcherOffToolStripMenuItem.Checked = true;
+            watcherOnToolStripMenuItem.Checked = false;
+            toolStripStatusLabel2.Image = null;
+        }
+
         private void MakeConnection(string host)
         {
             if (!String.IsNullOrEmpty(textBox1.Text))
             {
                 try
                 {
-                    ResetTreeView();
-                    dt.Rows.Clear();
-                    dt.Columns.Clear();
-                    ClearLogs();
-                    currentLogViewed = "";
-
-                    findToolStripMenuItem.Enabled = false;
-                    createToolStripMenuItem.Enabled = false;
-                    bs.RemoveFilter();
-                    removeToolStripMenuItem.Enabled = false;
-                    syncConnectedDeviceToolStripMenuItem.Enabled = false;
-                    getConnectedDeviceInfoToolStripMenuItem.Enabled = false;
-                    watcherOffToolStripMenuItem.Enabled = false;
-                    watcherOnToolStripMenuItem.Enabled = false;
+                    ResetUIDefaults();
 
                     toolStripStatusLabel1.Text = "Connecting to " + host.Split(".")[0] + " ...";
 
@@ -193,7 +200,7 @@ namespace Intune_Deployment_Troubleshooter
 
         private void createToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Form3 frm3 = new Form3();
+            Form3 frm3 = new Form3(this);
             frm3.ShowDialog();
         }
 

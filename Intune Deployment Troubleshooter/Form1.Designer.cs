@@ -130,7 +130,7 @@ namespace Intune_Deployment_Troubleshooter
             // 
             this.createToolStripMenuItem.Enabled = false;
             this.createToolStripMenuItem.Name = "createToolStripMenuItem";
-            this.createToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.createToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.createToolStripMenuItem.Text = "Create";
             this.createToolStripMenuItem.Click += new System.EventHandler(this.createToolStripMenuItem_Click);
             // 
@@ -138,7 +138,7 @@ namespace Intune_Deployment_Troubleshooter
             // 
             this.removeToolStripMenuItem.Enabled = false;
             this.removeToolStripMenuItem.Name = "removeToolStripMenuItem";
-            this.removeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.removeToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
@@ -155,7 +155,7 @@ namespace Intune_Deployment_Troubleshooter
             // 
             this.watcherOnToolStripMenuItem.Enabled = false;
             this.watcherOnToolStripMenuItem.Name = "watcherOnToolStripMenuItem";
-            this.watcherOnToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.watcherOnToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.watcherOnToolStripMenuItem.Text = "Watcher On";
             this.watcherOnToolStripMenuItem.Click += new System.EventHandler(this.watcherOnToolStripMenuItem_Click);
             // 
@@ -165,7 +165,7 @@ namespace Intune_Deployment_Troubleshooter
             this.watcherOffToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.watcherOffToolStripMenuItem.Enabled = false;
             this.watcherOffToolStripMenuItem.Name = "watcherOffToolStripMenuItem";
-            this.watcherOffToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.watcherOffToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
             this.watcherOffToolStripMenuItem.Text = "Watcher Off";
             this.watcherOffToolStripMenuItem.Click += new System.EventHandler(this.watcherOffToolStripMenuItem_Click);
             // 
@@ -234,6 +234,7 @@ namespace Intune_Deployment_Troubleshooter
             this.imageList1.Images.SetKeyName(0, "error.bmp");
             this.imageList1.Images.SetKeyName(1, "info.bmp");
             this.imageList1.Images.SetKeyName(2, "warning.bmp");
+            this.imageList1.Images.SetKeyName(3, "watcher.bmp");
             // 
             // timer1
             // 
@@ -406,6 +407,6 @@ namespace Intune_Deployment_Troubleshooter
         private DataGridView dataGridView1;
         private ToolStripMenuItem findToolStripMenuItem1;
         private ToolStripMenuItem findToolStripMenuItem;
-        private ToolStripMenuItem removeToolStripMenuItem;
+        public ToolStripMenuItem removeToolStripMenuItem;
     }
 }

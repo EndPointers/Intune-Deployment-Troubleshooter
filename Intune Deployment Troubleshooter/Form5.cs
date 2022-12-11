@@ -28,12 +28,63 @@ namespace Intune_Deployment_Troubleshooter
 
         private void FindMatch(DataGridView dgv, string val, int startIndex)
         {
-            int wordstartIndex = -1;
-            if (startIndex < 0 || startIndex > dgv.Rows.Count)
+            switch(findDirection)
             {
-                //MessageBox.Show("Reached the end of")
+                case -1:
+                    FindPrevious(dgv, val, startIndex);
+                    break;
+                case 1:
+                    FindNext(dgv, val, startIndex);
+                    break;
+            }
+        }
+
+        private void FindNext(DataGridView dgv, string val, int startIndex)
+        {
+            int wordstartIndex = -1;
+            if (startIndex >= dgv.Rows.Count)
+            {
+                startIndex = 0;
+                CurrentRow = 0;
+                findDirection = down;
+                radioButton2.Checked = true;
             }
             for (int x = startIndex; x < dgv.Rows.Count; x++)
+            {
+                if (dgv.Rows[x].Cells[4].Value.ToString() != string.Empty)
+                {
+                    string source = dgv.Rows[x].Cells[4].Value.ToString();
+                    if (checkBox1.Checked)
+                    {
+                        wordstartIndex = source.IndexOf(val);
+                    }
+                    else
+                    {
+                        wordstartIndex = source.IndexOf(val, StringComparison.OrdinalIgnoreCase);
+                    }
+                    if (wordstartIndex != -1)
+                    {
+                        CurrentRow = x;
+                        dgv.ClearSelection();
+                        dgv.Rows[CurrentRow].Selected = true;
+                        dgv.CurrentCell = dgv.Rows[CurrentRow].Cells[0];
+                        break;
+                    }
+                }
+            }
+        }
+
+        private void FindPrevious(DataGridView dgv, string val, int startIndex)
+        {
+            int wordstartIndex = -1;
+            if (startIndex <= 0)
+            {
+                startIndex = dgv.Rows.Count;
+                CurrentRow = dgv.Rows.Count;
+                findDirection = up;
+                radioButton1.Checked = true;
+            }
+            for (int x = startIndex; x < dgv.Rows.Count; x--)
             {
                 if (dgv.Rows[x].Cells[4].Value.ToString() != string.Empty)
                 {

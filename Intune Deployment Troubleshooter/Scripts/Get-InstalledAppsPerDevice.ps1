@@ -23,17 +23,10 @@ Connect-MgGraph -Scopes "DeviceManagementManagedDevices.Read.All"
 Select-MgProfile -Name "beta"
 
 # Obtain the Azure Object ID
-foreach($object in (Get-MgDeviceManagementManagedDevice -All))
+foreach ($object in Get-MgDevice -Search "DisplayName:$($hostname)" -ConsistencyLevel eventual)
 {
-	# Obtain Device.ID
-	$device = (Get-MgDeviceManagementManagedDevice -ManagedDeviceId $object.id)
-	
-	If($device.deviceName -eq $Hostname)
+	foreach($app in (Get-MgDeviceManagementManagedDeviceDetectedApp -ManagedDeviceId $object.id -All))
 	{
-		foreach($app in (Get-MgDeviceManagementManagedDeviceDetectedApp -ManagedDeviceId $device.id -All))
-		{
-			Write-Output "$($app.displayName):$($app.Version);"
-		}
-		break
+		Write-Output "$($app.displayName):$($app.Version)"
 	}
 }

@@ -58,6 +58,7 @@ namespace Intune_Deployment_Troubleshooter
             removeToolStripMenuItem.Enabled = false;
             syncConnectedDeviceToolStripMenuItem.Enabled = false;
             getConnectedDeviceInfoToolStripMenuItem.Enabled = false;
+            getConnectedDeviceDiscoveredAppsToolStripMenuItem.Enabled = false;
             watcherOffToolStripMenuItem.Enabled = false;
             watcherOnToolStripMenuItem.Enabled = false;
             watcherOffToolStripMenuItem.Checked = true;
@@ -128,6 +129,7 @@ namespace Intune_Deployment_Troubleshooter
                     toolStripStatusLabel1.Text = "Connected";
                     syncConnectedDeviceToolStripMenuItem.Enabled = true;
                     getConnectedDeviceInfoToolStripMenuItem.Enabled = true;
+                    getConnectedDeviceDiscoveredAppsToolStripMenuItem.Enabled = true;
                     treeView1.Nodes[0].EnsureVisible();
                 }
                 catch (Exception ex)
@@ -326,5 +328,11 @@ namespace Intune_Deployment_Troubleshooter
             ClearLogs();
         }
 
+        private void getConnectedDeviceDiscoveredAppsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            hostname = textBox1.Text;
+            Form6 frm6 = new Form6();
+            frm6.Show();
+        }
     }
 }

@@ -63,6 +63,7 @@ namespace Intune_Deployment_Troubleshooter
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.panel3 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.getConnectedDeviceDiscoveredAppsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -173,7 +174,8 @@ namespace Intune_Deployment_Troubleshooter
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.syncConnectedDeviceToolStripMenuItem,
-            this.getConnectedDeviceInfoToolStripMenuItem});
+            this.getConnectedDeviceInfoToolStripMenuItem,
+            this.getConnectedDeviceDiscoveredAppsToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(46, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
@@ -182,16 +184,16 @@ namespace Intune_Deployment_Troubleshooter
             // 
             this.syncConnectedDeviceToolStripMenuItem.Enabled = false;
             this.syncConnectedDeviceToolStripMenuItem.Name = "syncConnectedDeviceToolStripMenuItem";
-            this.syncConnectedDeviceToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
-            this.syncConnectedDeviceToolStripMenuItem.Text = "Sync Connected Device";
+            this.syncConnectedDeviceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.syncConnectedDeviceToolStripMenuItem.Text = "Sync Device";
             this.syncConnectedDeviceToolStripMenuItem.Click += new System.EventHandler(this.syncConnectedDeviceToolStripMenuItem_Click);
             // 
             // getConnectedDeviceInfoToolStripMenuItem
             // 
             this.getConnectedDeviceInfoToolStripMenuItem.Enabled = false;
             this.getConnectedDeviceInfoToolStripMenuItem.Name = "getConnectedDeviceInfoToolStripMenuItem";
-            this.getConnectedDeviceInfoToolStripMenuItem.Size = new System.Drawing.Size(215, 22);
-            this.getConnectedDeviceInfoToolStripMenuItem.Text = "Get Connected Device Info";
+            this.getConnectedDeviceInfoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.getConnectedDeviceInfoToolStripMenuItem.Text = "Device Info";
             this.getConnectedDeviceInfoToolStripMenuItem.Click += new System.EventHandler(this.getConnectedDeviceInfoToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
@@ -348,6 +350,14 @@ namespace Intune_Deployment_Troubleshooter
             this.dataGridView1.Size = new System.Drawing.Size(580, 460);
             this.dataGridView1.TabIndex = 0;
             // 
+            // getConnectedDeviceDiscoveredAppsToolStripMenuItem
+            // 
+            this.getConnectedDeviceDiscoveredAppsToolStripMenuItem.Enabled = false;
+            this.getConnectedDeviceDiscoveredAppsToolStripMenuItem.Name = "getConnectedDeviceDiscoveredAppsToolStripMenuItem";
+            this.getConnectedDeviceDiscoveredAppsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.getConnectedDeviceDiscoveredAppsToolStripMenuItem.Text = "Discovered Apps";
+            this.getConnectedDeviceDiscoveredAppsToolStripMenuItem.Click += new System.EventHandler(this.getConnectedDeviceDiscoveredAppsToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -408,5 +418,6 @@ namespace Intune_Deployment_Troubleshooter
         private ToolStripMenuItem findToolStripMenuItem1;
         private ToolStripMenuItem findToolStripMenuItem;
         public ToolStripMenuItem removeToolStripMenuItem;
+        private ToolStripMenuItem getConnectedDeviceDiscoveredAppsToolStripMenuItem;
     }
 }

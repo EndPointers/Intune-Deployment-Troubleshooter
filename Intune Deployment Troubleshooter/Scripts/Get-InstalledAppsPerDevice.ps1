@@ -25,6 +25,7 @@ Select-MgProfile -Name "beta"
 # Obtain the Azure Object ID
 foreach ($object in Get-MgDeviceManagementManagedDevice -Filter "deviceName eq '$($Hostname)'")
 {
+	# Obtain discovered apps
 	foreach($app in (Get-MgDeviceManagementManagedDeviceDetectedApp -ManagedDeviceId $object.id -All))
 	{
 		Write-Output "$($app.displayName):$($app.Version)"

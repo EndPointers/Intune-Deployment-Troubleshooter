@@ -14,12 +14,11 @@ namespace Intune_Deployment_Troubleshooter
     public partial class Form5 : Form
     {
         private Form1 mainForm = null;
-        private static int up = -1;
-        private static int down = 1;
-        int findDirection = down;
-        int CurrentRow = 1;
-        bool found = false;
 
+        int matchesFound = 0;
+        int findDirection = 1;
+        int CurrentIndex = 0;
+        static List<int> _WordMatchIndexes = new List<int>();
 
         public Form5(Form parentForm)
         {
@@ -27,95 +26,67 @@ namespace Intune_Deployment_Troubleshooter
             InitializeComponent();
         }
 
-        private void FindMatch(DataGridView dgv, string val, int startIndex)
+        private void StoreMatchIndexes(DataGridView dgv, string val)
         {
-            switch(findDirection)
+            var WordMatchIndexes = _WordMatchIndexes;
+            for (int x = 0; x < dgv.Rows.Count; x++)
             {
-                case -1:
-                    FindPrevious(dgv, val, startIndex);
-                    break;
-                case 1:
-                    FindNext(dgv, val, startIndex);
-                    break;
-            }
-        }
-
-        private void FindNext(DataGridView dgv, string val, int startIndex)
-        {
-            int wordstartIndex = -1;
-            if (startIndex <= dgv.Rows.Count)
-            {
-                for (int x = startIndex; x < dgv.Rows.Count; x++)
+                int wordstartIndex = dgv.Rows[x].Cells[4].Value.ToString().IndexOf(val, x, StringComparison.OrdinalIgnoreCase);
+                if (wordstartIndex != -1)
                 {
-                    if (dgv.Rows[x].Cells[4].Value.ToString() != string.Empty)
-                    {
-                        string source = dgv.Rows[x].Cells[4].Value.ToString();
-                        if (checkBox1.Checked)
-                        {
-                            wordstartIndex = source.IndexOf(val);
-                        }
-                        else
-                        {
-                            wordstartIndex = source.IndexOf(val, StringComparison.OrdinalIgnoreCase);
-                        }
-                        if (wordstartIndex != -1)
-                        {
-                            CurrentRow = x;
-                            dgv.ClearSelection();
-                            dgv.Rows[CurrentRow].Selected = true;
-                            dgv.CurrentCell = dgv.Rows[CurrentRow].Cells[0];
-                            found = true;
-                            break;
-                        }
-                    }
+                    WordMatchIndexes.Add(x);
+                    matchesFound++;
                 }
-                if (!found)
+                else
                 {
-                    MessageBox.Show("The search term was not found.");
+                    break;
                 }
             }
         }
 
-        private void FindPrevious(DataGridView dgv, string val, int startIndex)
+        private void FindNext(DataGridView dgv)
         {
-            int wordstartIndex = -1;
-            if (startIndex >= 0)
+            var WordMatchIndexes = _WordMatchIndexes;
+            if (CurrentIndex <= WordMatchIndexes.Count + 1)
             {
-                for (int x = startIndex; x < dgv.Rows.Count; x--)
-                {
-                    if (dgv.Rows[x].Cells[4].Value.ToString() != string.Empty)
-                    {
-                        string source = dgv.Rows[x].Cells[4].Value.ToString();
-                        if (checkBox1.Checked)
-                        {
-                            wordstartIndex = source.IndexOf(val);
-                        }
-                        else
-                        {
-                            wordstartIndex = source.IndexOf(val, StringComparison.OrdinalIgnoreCase);
-                        }
-                        if (wordstartIndex != -1)
-                        {
-                            CurrentRow = x;
-                            dgv.ClearSelection();
-                            dgv.Rows[CurrentRow].Selected = true;
-                            dgv.CurrentCell = dgv.Rows[CurrentRow].Cells[0];
-                            found = true;
-                            break;
-                        }
-                    }
-                }
-                if (!found)
-                {
-                    MessageBox.Show("The search term was not found.");
-                }
+                CurrentIndex++;
+                dgv.ClearSelection();
+                dgv.Rows[WordMatchIndexes[CurrentIndex]].Selected = true;
+                dgv.CurrentCell = dgv.Rows[WordMatchIndexes[CurrentIndex]].Cells[0];
+            }
+        }
+
+        private void FindPrevious(DataGridView dgv)
+        {
+            var WordMatchIndexes = _WordMatchIndexes;
+            if (CurrentIndex >= 1)
+            {
+                CurrentIndex--;
+                dgv.ClearSelection();
+                dgv.Rows[WordMatchIndexes[CurrentIndex]].Selected = true;
+                dgv.CurrentCell = dgv.Rows[WordMatchIndexes[CurrentIndex]].Cells[0];
             }
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            int nowRow = CurrentRow + findDirection;
-            FindMatch(this.mainForm.dataGridView1, textBox1.Text, nowRow);
+            StoreMatchIndexes(this.mainForm.dataGridView1, textBox1.Text);
+            if (_WordMatchIndexes.Count > 0)
+            {
+                switch (findDirection)
+                {
+                    case 0: //up
+                        FindPrevious(this.mainForm.dataGridView1);
+                        break;
+                    case 1: //down
+                        FindNext(this.mainForm.dataGridView1);
+                        break;
+                }
+            }
+            else
+            {
+                MessageBox.Show("The search term was not found.");
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -125,18 +96,20 @@ namespace Intune_Deployment_Troubleshooter
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
         {
-            findDirection = up;
+            findDirection = 0; //up
         }
 
         private void radioButton2_CheckedChanged(object sender, EventArgs e)
         {
-            findDirection = down;
+            findDirection = 1; //down
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            CurrentRow = 1;
-            found = false;
+            matchesFound = 0;
+            _WordMatchIndexes.Clear();
+            findDirection = 1;
+            CurrentIndex = 0;
         }
     }
 }

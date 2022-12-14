@@ -31,7 +31,7 @@ namespace Intune_Deployment_Troubleshooter
             var WordMatchIndexes = _WordMatchIndexes;
             for (int x = 0; x < dgv.Rows.Count; x++)
             {
-                int wordstartIndex = dgv.Rows[x].Cells[4].Value.ToString().IndexOf(val, x, StringComparison.OrdinalIgnoreCase);
+                int wordstartIndex = dgv.Rows[x].Cells[4].Value.ToString().IndexOf(val, StringComparison.OrdinalIgnoreCase);
                 if (wordstartIndex != -1)
                 {
                     WordMatchIndexes.Add(x);
@@ -47,7 +47,7 @@ namespace Intune_Deployment_Troubleshooter
         private void FindNext(DataGridView dgv)
         {
             var WordMatchIndexes = _WordMatchIndexes;
-            if (CurrentIndex <= WordMatchIndexes.Count + 1)
+            if (CurrentIndex <= WordMatchIndexes.Count)
             {
                 CurrentIndex++;
                 dgv.ClearSelection();

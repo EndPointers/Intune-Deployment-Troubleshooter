@@ -15,7 +15,6 @@ namespace Intune_Deployment_Troubleshooter
     {
         private Form1 mainForm = null;
 
-        int matchesFound = 0;
         int findDirection = 1;
         int CurrentIndex = 0;
         static List<int> _WordMatchIndexes = new List<int>();
@@ -35,11 +34,6 @@ namespace Intune_Deployment_Troubleshooter
                 if (wordstartIndex != -1)
                 {
                     WordMatchIndexes.Add(x);
-                    matchesFound++;
-                }
-                else
-                {
-                    break;
                 }
             }
         }
@@ -47,12 +41,13 @@ namespace Intune_Deployment_Troubleshooter
         private void FindNext(DataGridView dgv)
         {
             var WordMatchIndexes = _WordMatchIndexes;
-            if (CurrentIndex <= WordMatchIndexes.Count)
+            int WordMatchCount = WordMatchIndexes.Count;
+            if (CurrentIndex < WordMatchCount-1)
             {
-                CurrentIndex++;
                 dgv.ClearSelection();
-                dgv.Rows[WordMatchIndexes[CurrentIndex]].Selected = true;
-                dgv.CurrentCell = dgv.Rows[WordMatchIndexes[CurrentIndex]].Cells[0];
+                dgv.Rows[WordMatchIndexes[CurrentIndex+1]].Selected = true;
+                dgv.CurrentCell = dgv.Rows[WordMatchIndexes[CurrentIndex+1]].Cells[0];
+                CurrentIndex++;
             }
         }
 
@@ -70,6 +65,7 @@ namespace Intune_Deployment_Troubleshooter
 
         private void button1_Click(object sender, EventArgs e)
         {
+            _WordMatchIndexes.Clear();
             StoreMatchIndexes(this.mainForm.dataGridView1, textBox1.Text);
             if (_WordMatchIndexes.Count > 0)
             {
@@ -82,10 +78,9 @@ namespace Intune_Deployment_Troubleshooter
                         FindNext(this.mainForm.dataGridView1);
                         break;
                 }
-            }
-            else
+            } else
             {
-                MessageBox.Show("The search term was not found.");
+               MessageBox.Show("The search term was not found.");
             }
         }
 
@@ -106,10 +101,11 @@ namespace Intune_Deployment_Troubleshooter
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            matchesFound = 0;
             _WordMatchIndexes.Clear();
             findDirection = 1;
-            CurrentIndex = 0;
+            CurrentIndex = this.mainForm.dataGridView1.CurrentCell.RowIndex;
         }
+
     }
 }
+

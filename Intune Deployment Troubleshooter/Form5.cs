@@ -15,7 +15,6 @@ namespace Intune_Deployment_Troubleshooter
     {
         private Form1 mainForm = null;
 
-        int findDirection = 1;
         int CurrentIndex = 0;
         static List<int> _WordMatchIndexes = new List<int>();
 
@@ -23,6 +22,16 @@ namespace Intune_Deployment_Troubleshooter
         {
             mainForm = parentForm as Form1;
             InitializeComponent();
+        }
+
+        private int GetFindDirection()
+        {
+            int direction = 0;
+            if(radioButton2.Checked)
+            {
+                direction = 1;
+            }
+            return direction;
         }
 
         private void StoreMatchIndexes(DataGridView dgv, string val)
@@ -42,11 +51,11 @@ namespace Intune_Deployment_Troubleshooter
         {
             var WordMatchIndexes = _WordMatchIndexes;
             int WordMatchCount = WordMatchIndexes.Count;
-            if (CurrentIndex < WordMatchCount-1)
+            if (CurrentIndex <= WordMatchCount-1)
             {
                 dgv.ClearSelection();
-                dgv.Rows[WordMatchIndexes[CurrentIndex+1]].Selected = true;
-                dgv.CurrentCell = dgv.Rows[WordMatchIndexes[CurrentIndex+1]].Cells[0];
+                dgv.Rows[WordMatchIndexes[CurrentIndex]].Selected = true;
+                dgv.CurrentCell = dgv.Rows[WordMatchIndexes[CurrentIndex]].Cells[0];
                 CurrentIndex++;
             }
         }
@@ -66,6 +75,7 @@ namespace Intune_Deployment_Troubleshooter
         private void button1_Click(object sender, EventArgs e)
         {
             _WordMatchIndexes.Clear();
+            int findDirection = GetFindDirection();
             StoreMatchIndexes(this.mainForm.dataGridView1, textBox1.Text);
             if (_WordMatchIndexes.Count > 0)
             {
@@ -89,20 +99,8 @@ namespace Intune_Deployment_Troubleshooter
             this.Close();
         }
 
-        private void radioButton1_CheckedChanged(object sender, EventArgs e)
-        {
-            findDirection = 0; //up
-        }
-
-        private void radioButton2_CheckedChanged(object sender, EventArgs e)
-        {
-            findDirection = 1; //down
-        }
-
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-            _WordMatchIndexes.Clear();
-            findDirection = 1;
             CurrentIndex = this.mainForm.dataGridView1.CurrentCell.RowIndex;
         }
 

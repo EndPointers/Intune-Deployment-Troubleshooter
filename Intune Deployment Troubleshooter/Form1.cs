@@ -14,6 +14,9 @@ using System.Data;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Diagnostics.Eventing.Reader;
 using System.Diagnostics;
+using Newtonsoft.Json.Linq;
+using System.Xml.Linq;
+using Microsoft.CodeAnalysis;
 
 namespace Intune_Deployment_Troubleshooter
 {
@@ -23,6 +26,7 @@ namespace Intune_Deployment_Troubleshooter
         public static DataTable dt = new DataTable();
         public static BindingSource bs = new BindingSource();
         private static string currentLogViewed = "";
+        private static string[] ParentNodes = Array.Empty<string>();
 
         public Form1()
         {
@@ -51,6 +55,7 @@ namespace Intune_Deployment_Troubleshooter
             dt.Columns.Clear();
             ClearLogs();
             currentLogViewed = "";
+            Array.Clear(ParentNodes, 0, ParentNodes.Length);
             timer1.Enabled = false;
             findToolStripMenuItem.Enabled = false;
             createToolStripMenuItem.Enabled = false;
@@ -109,6 +114,8 @@ namespace Intune_Deployment_Troubleshooter
                         "System.evtx"
                     };
 
+                    List<string> pFolders = new List<string>();
+
                     foreach (string eventLogs in EventViewerLogs)
                     {
                         DirectoryInfo d2 = new DirectoryInfo(@"\\" + host + "\\C$\\Windows\\System32\\winevt\\Logs");
@@ -119,7 +126,24 @@ namespace Intune_Deployment_Troubleshooter
                         {
                             if (Regex.IsMatch(file2.Name, eventLogs, RegexOptions.IgnoreCase))
                             {
-                                treeView1.Nodes["root"].Nodes["evt"].Nodes.Add(file2.Name);
+                                string fileName = file2.Name;
+                                string[] vPaths = fileName.Split("%4");
+                                if (vPaths.Count() > 1)
+                                {
+                                    TreeNode ParentNode = treeView1.Nodes["root"].Nodes["evt"];
+                                    string[] vFolders = vPaths[0].Split("-");
+                                    for (int x = 0; x < vFolders.Count(); x++)
+                                    {
+                                        //TODO: prevent creating duplicate nodes per file group
+                                        ParentNode.Nodes.Add(vFolders[x], vFolders[x]);
+                                        ParentNode = ParentNode.Nodes[vFolders[x]];   
+                                    }
+                                    ParentNode.Nodes.Add(vPaths[1], vPaths[1]);
+                                }
+                                else
+                                {
+                                    treeView1.Nodes["root"].Nodes["evt"].Nodes.Add(file2.Name);
+                                }
                             }
                         }
                     }
@@ -138,6 +162,21 @@ namespace Intune_Deployment_Troubleshooter
                     toolStripStatusLabel1.Text = "Not Connected";
                 }
             }
+        }
+
+        private bool IsDuplicateNode(List<string> pList, string value)
+        {
+            bool result = false;
+
+            foreach(string p in pList)
+            {
+                if(p == value)
+                {
+                    result = true; break;
+                }
+            }
+
+            return result;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -241,6 +280,44 @@ namespace Intune_Deployment_Troubleshooter
             }
         }
 
+        private string DecodeFileName(TreeNode node)
+        {
+            string result = "";
+            List<string> CleanPath = new List<string>();
+            string[] nodes = node.FullPath.Split("\\");
+            if (nodes.Count() > 3)
+            {
+                for (int x = nodes.Count() - 1; x >= 0; x--)
+                {
+                    if (nodes[x] != "MDM Diagnostics" && nodes[x] != "Intune Logs" && nodes[x] != "Event Viewer Logs")
+                    {
+                        if (x == nodes.Count() - 1)
+                        {
+                            CleanPath.Add("%4" + nodes[x]);
+                        }
+                        else
+                        {
+                            CleanPath.Add("-" + nodes[x]);
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                CleanPath.Reverse();
+                foreach (string CP in CleanPath)
+                {
+                    result += CP;
+                }
+                result = result.Substring(1, result.Length - 1);
+            } else
+            {
+                result = nodes[2];
+            }
+            return result;
+        }
+
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
         {
             if (e.Node.Text != "MDM Diagnostics" && e.Node.Text != "Intune Logs" && e.Node.Text != "Event Viewer Logs")
@@ -250,11 +327,14 @@ namespace Intune_Deployment_Troubleshooter
                     currentLogViewed = e.Node.Text;
                     RefreshLogViewer(currentLogViewed);
                 }
-                if (e.Node.Parent.Text == "Event Viewer Logs")
+
+                string evtFileName = DecodeFileName(e.Node);
+
+                if (evtFileName.IndexOf(".evtx") >= 0)
                 {
                     ProcessStartInfo startInfo = new ProcessStartInfo();
                     startInfo.FileName = "cmd.exe";
-                    startInfo.Arguments = "/K " + Environment.GetFolderPath(Environment.SpecialFolder.Windows) + "\\system32\\eventvwr.exe " + textBox1.Text + " /l:C:\\Windows\\System32\\winevt\\Logs\\" + e.Node.Text;
+                    startInfo.Arguments = "/K " + Environment.GetFolderPath(Environment.SpecialFolder.Windows) + "\\system32\\eventvwr.exe " + textBox1.Text + " /l:C:\\Windows\\System32\\winevt\\Logs\\" + evtFileName;
                     startInfo.RedirectStandardOutput = true;
                     startInfo.RedirectStandardError = true;
                     startInfo.UseShellExecute = false;

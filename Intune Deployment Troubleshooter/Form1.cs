@@ -31,11 +31,6 @@ namespace Intune_Deployment_Troubleshooter
         {
             InitializeComponent();
             textBox1.KeyUp += textBox1_KeyUp;
-            treeView1.Nodes.Add("root", "MDM Diagnostics");
-            treeView1.Nodes["root"].Nodes.Add("mdm", "Intune Logs");
-            treeView1.Nodes["root"].Nodes.Add("evt", "Event Viewer Logs");
-            treeView1.Nodes["root"].Nodes["evt"].Nodes.Add("Microsoft", "Microsoft");
-            treeView1.Nodes["root"].Nodes["evt"].Nodes["Microsoft"].Nodes.Add("Windows", "Windows");
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -52,11 +47,6 @@ namespace Intune_Deployment_Troubleshooter
         private void ResetUIDefaults()
         {
             treeView1.Nodes.Clear();
-            treeView1.Nodes.Add("root", "MDM Diagnostics");
-            treeView1.Nodes["root"].Nodes.Add("mdm", "Intune Logs");
-            treeView1.Nodes["root"].Nodes.Add("evt", "Event Viewer Logs");
-            treeView1.Nodes["root"].Nodes["evt"].Nodes.Add("Microsoft", "Microsoft");
-            treeView1.Nodes["root"].Nodes["evt"].Nodes["Microsoft"].Nodes.Add("Windows", "Windows");
             dt.Rows.Clear();
             dt.Columns.Clear();
             ClearLogs();
@@ -74,6 +64,7 @@ namespace Intune_Deployment_Troubleshooter
             watcherOffToolStripMenuItem.Checked = true;
             watcherOnToolStripMenuItem.Checked = false;
             toolStripStatusLabel2.Image = null;
+            toolStripStatusLabel1.Text = "Not Connected";
         }
 
         private void MakeConnection(string host)
@@ -82,14 +73,18 @@ namespace Intune_Deployment_Troubleshooter
             {
                 try
                 {
-                    ResetUIDefaults();
-                    TreeNode ParentNode = ResetTVParentNode();
-
                     toolStripStatusLabel1.Text = "Connecting to " + host.Split(".")[0] + " ...";
 
                     DirectoryInfo d = new DirectoryInfo(@"\\" + host + "\\C$\\ProgramData\\Microsoft\\IntuneManagementExtension\\Logs");
 
                     FileInfo[] Files = d.GetFiles("*.log");
+
+                    ResetUIDefaults();
+                    treeView1.Nodes.Add("root", "MDM Diagnostics");
+                    treeView1.Nodes["root"].Nodes.Add("mdm", "Intune Logs");
+                    treeView1.Nodes["root"].Nodes.Add("evt", "Event Viewer Logs");
+                    treeView1.Nodes["root"].Nodes["evt"].Nodes.Add("Microsoft", "Microsoft");
+                    treeView1.Nodes["root"].Nodes["evt"].Nodes["Microsoft"].Nodes.Add("Windows", "Windows");
 
                     foreach (FileInfo file in Files)
                     {
@@ -117,6 +112,8 @@ namespace Intune_Deployment_Troubleshooter
                         @"Setup.evtx",
                         @"System.evtx"
                     };
+
+                    TreeNode ParentNode = ResetTVParentNode();
 
                     foreach (string eventLogs in EventViewerLogs)
                     {
@@ -171,8 +168,8 @@ namespace Intune_Deployment_Troubleshooter
                 }
                 catch (Exception ex)
                 {
+                    ResetUIDefaults();
                     MessageBox.Show(ex.Message);
-                    toolStripStatusLabel1.Text = "Not Connected";
                 }
             }
         }

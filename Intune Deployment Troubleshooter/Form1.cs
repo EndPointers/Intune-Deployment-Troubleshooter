@@ -26,12 +26,16 @@ namespace Intune_Deployment_Troubleshooter
         public static DataTable dt = new DataTable();
         public static BindingSource bs = new BindingSource();
         private static string currentLogViewed = "";
-        private static string[] ParentNodes = Array.Empty<string>();
 
         public Form1()
         {
             InitializeComponent();
             textBox1.KeyUp += textBox1_KeyUp;
+            treeView1.Nodes.Add("root", "MDM Diagnostics");
+            treeView1.Nodes["root"].Nodes.Add("mdm", "Intune Logs");
+            treeView1.Nodes["root"].Nodes.Add("evt", "Event Viewer Logs");
+            treeView1.Nodes["root"].Nodes["evt"].Nodes.Add("Microsoft", "Microsoft");
+            treeView1.Nodes["root"].Nodes["evt"].Nodes["Microsoft"].Nodes.Add("Windows", "Windows");
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -39,23 +43,24 @@ namespace Intune_Deployment_Troubleshooter
             this.Close();
         }
 
-        private void ResetTreeView()
+        private TreeNode ResetTVParentNode()
+        {
+            TreeNode ParentNode = treeView1.Nodes["root"].Nodes["evt"];
+            return ParentNode;
+        }
+
+        private void ResetUIDefaults()
         {
             treeView1.Nodes.Clear();
             treeView1.Nodes.Add("root", "MDM Diagnostics");
             treeView1.Nodes["root"].Nodes.Add("mdm", "Intune Logs");
             treeView1.Nodes["root"].Nodes.Add("evt", "Event Viewer Logs");
-            treeView1.EndUpdate();
-        }
-
-        private void ResetUIDefaults()
-        {
-            ResetTreeView();
+            treeView1.Nodes["root"].Nodes["evt"].Nodes.Add("Microsoft", "Microsoft");
+            treeView1.Nodes["root"].Nodes["evt"].Nodes["Microsoft"].Nodes.Add("Windows", "Windows");
             dt.Rows.Clear();
             dt.Columns.Clear();
             ClearLogs();
             currentLogViewed = "";
-            Array.Clear(ParentNodes, 0, ParentNodes.Length);
             timer1.Enabled = false;
             findToolStripMenuItem.Enabled = false;
             createToolStripMenuItem.Enabled = false;
@@ -78,6 +83,7 @@ namespace Intune_Deployment_Troubleshooter
                 try
                 {
                     ResetUIDefaults();
+                    TreeNode ParentNode = ResetTVParentNode();
 
                     toolStripStatusLabel1.Text = "Connecting to " + host.Split(".")[0] + " ...";
 
@@ -88,68 +94,75 @@ namespace Intune_Deployment_Troubleshooter
                     foreach (FileInfo file in Files)
                     {
                         File.Copy(file.FullName, Directory.GetCurrentDirectory() + "\\Logs\\" + file.Name, true);
-                        treeView1.Nodes["root"].Nodes["mdm"].Nodes.Add(file.Name);
+                        treeView1.Nodes["root"].Nodes["mdm"].Nodes.Add(file.Name,file.Name,1,1);
                     }
 
                     string[] EventViewerLogs = {
-                        "Application.evtx",
-                        "microsoft-windows-aad.*operational.*",
-                        "microsoft-windows-appxdeploymentserver.*operational.*",
-                        "microsoft-windows-assignedaccess.*admin.*",
-                        "microsoft-windows-assignedaccess.*operational.*",
-                        "microsoft-windows-assignedaccessbroker.*admin.*",
-                        "microsoft-windows-assignedaccessbroker.*operational.*",
-                        "microsoft-windows-crypto-ncrypt.*operational.*",
-                        "microsoft-windows-devicemanagement-enterprise-diagnostics-provider.*admin.*",
-                        "microsoft-windows-devicemanagement-enterprise-diagnostics-provider.*autopilot.*",
-                        "microsoft-windows-devicemanagement-enterprise-diagnostics-provider.*operational.*",
-                        "microsoft-windows-moderndeployment-diagnostics-provider.*autopilot.*",
-                        "microsoft-windows-moderndeployment-diagnostics-provider.*diagnostics.*",
-                        "microsoft-windows-moderndeployment-diagnostics-provider.*managementservice.*",
-                        "microsoft-windows-provisioning-diagnostics-provider.*admin.*",
-                        "microsoft-windows-shell-core.*operational.*",
-                        "microsoft-windows-user device registration.*admin.*",
-                        "Security.evtx",
-                        "Setup.evtx",
-                        "System.evtx"
+                        @"Application.evtx",
+                        @"microsoft-windows-aad.*operational.evtx",
+                        @"microsoft-windows-appxdeploymentserver.*operational.evtx",
+                        @"microsoft-windows-assignedaccess.*admin.evtx",
+                        @"microsoft-windows-assignedaccess.*operational.evtx",
+                        @"microsoft-windows-crypto-ncrypt.*operational.evtx",
+                        @"microsoft-windows-devicemanagement-enterprise-diagnostics-provider.*admin.evtx",
+                        @"microsoft-windows-devicemanagement-enterprise-diagnostics-provider.*autopilot.evtx",
+                        @"microsoft-windows-devicemanagement-enterprise-diagnostics-provider.*operational.evtx",
+                        @"microsoft-windows-moderndeployment-diagnostics-provider.*autopilot.evtx",
+                        @"microsoft-windows-moderndeployment-diagnostics-provider.*diagnostics.evtx",
+                        @"microsoft-windows-moderndeployment-diagnostics-provider.*managementservice.evtx",
+                        @"microsoft-windows-provisioning-diagnostics-provider.*admin.evtx",
+                        @"microsoft-windows-shell-core.*operational.evtx",
+                        @"microsoft-windows-user device registration.*admin.evtx",
+                        @"Security.evtx",
+                        @"Setup.evtx",
+                        @"System.evtx"
                     };
-
-                    List<string> pFolders = new List<string>();
 
                     foreach (string eventLogs in EventViewerLogs)
                     {
-                        DirectoryInfo d2 = new DirectoryInfo(@"\\" + host + "\\C$\\Windows\\System32\\winevt\\Logs");
+                        DirectoryInfo d2 = new DirectoryInfo(@"\\FLO-L-CG0391G0S\\C$\\Windows\\System32\\winevt\\Logs");
 
                         FileInfo[] Files2 = d2.GetFiles("*.evtx");
 
                         foreach (FileInfo file2 in Files2)
                         {
-                            if (Regex.IsMatch(file2.Name, eventLogs, RegexOptions.IgnoreCase))
+                            if (System.Text.RegularExpressions.Regex.IsMatch(file2.Name, eventLogs, System.Text.RegularExpressions.RegexOptions.IgnoreCase))
                             {
                                 string fileName = file2.Name;
                                 string[] vPaths = fileName.Split("%4");
                                 if (vPaths.Count() > 1)
                                 {
-                                    TreeNode ParentNode = treeView1.Nodes["root"].Nodes["evt"];
                                     string[] vFolders = vPaths[0].Split("-");
                                     for (int x = 0; x < vFolders.Count(); x++)
                                     {
-                                        //TODO: prevent creating duplicate nodes per file group
-                                        ParentNode.Nodes.Add(vFolders[x], vFolders[x]);
-                                        ParentNode = ParentNode.Nodes[vFolders[x]];   
+                                        if (isNodeChildNode(ParentNode, vFolders[x]) == false)
+                                        {
+                                            ParentNode.Nodes.Add(vFolders[x], vFolders[x], 0, 0);
+                                            ParentNode = ParentNode.Nodes[vFolders[x]];
+                                        }
+                                        else
+                                        {
+                                            ParentNode = ParentNode.Nodes[vFolders[x]];
+                                        }
                                     }
-                                    ParentNode.Nodes.Add(vPaths[1], vPaths[1]);
+
+                                    ParentNode.Nodes.Add(vPaths[1], vPaths[1].Replace(".evtx", ""), 1, 1);
+                                    ParentNode = ResetTVParentNode();
                                 }
                                 else
                                 {
-                                    treeView1.Nodes["root"].Nodes["evt"].Nodes.Add(file2.Name);
+                                    treeView1.Nodes["root"].Nodes["evt"].Nodes.Add(file2.Name, file2.Name.Replace(".evtx", ""), 1, 1);
                                 }
                             }
                         }
                     }
 
                     treeView1.EndUpdate();
-                    treeView1.ExpandAll();
+                    treeView1.Nodes["root"].Expand();
+                    treeView1.Nodes["root"].Nodes["mdm"].Expand();
+                    treeView1.Nodes["root"].Nodes["evt"].Expand();
+                    treeView1.Nodes["root"].Nodes["evt"].Nodes["Microsoft"].Expand();
+                    treeView1.Nodes["root"].Nodes["evt"].Nodes["Microsoft"].Nodes["Windows"].Expand();
                     toolStripStatusLabel1.Text = "Connected";
                     syncConnectedDeviceToolStripMenuItem.Enabled = true;
                     getConnectedDeviceInfoToolStripMenuItem.Enabled = true;
@@ -164,18 +177,17 @@ namespace Intune_Deployment_Troubleshooter
             }
         }
 
-        private bool IsDuplicateNode(List<string> pList, string value)
+        private bool isNodeChildNode(TreeNode t, string val)
         {
             bool result = false;
 
-            foreach(string p in pList)
+            foreach (TreeNode p in t.Nodes)
             {
-                if(p == value)
+                if (p.Name == val)
                 {
                     result = true; break;
                 }
             }
-
             return result;
         }
 
@@ -315,7 +327,7 @@ namespace Intune_Deployment_Troubleshooter
             {
                 result = nodes[2];
             }
-            return result;
+            return result + ".evtx";
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
@@ -326,29 +338,31 @@ namespace Intune_Deployment_Troubleshooter
                 {
                     currentLogViewed = e.Node.Text;
                     RefreshLogViewer(currentLogViewed);
-                }
-
-                string evtFileName = DecodeFileName(e.Node);
-
-                if (evtFileName.IndexOf(".evtx") >= 0)
+                } else 
                 {
-                    ProcessStartInfo startInfo = new ProcessStartInfo();
-                    startInfo.FileName = "cmd.exe";
-                    startInfo.Arguments = "/K " + Environment.GetFolderPath(Environment.SpecialFolder.Windows) + "\\system32\\eventvwr.exe " + textBox1.Text + " /l:C:\\Windows\\System32\\winevt\\Logs\\" + evtFileName;
-                    startInfo.RedirectStandardOutput = true;
-                    startInfo.RedirectStandardError = true;
-                    startInfo.UseShellExecute = false;
-                    startInfo.CreateNoWindow = true;
+                    string evtFileName = DecodeFileName(e.Node);
 
-                    Process processTemp = new Process();
-                    processTemp.StartInfo = startInfo;
-                    processTemp.EnableRaisingEvents = true;
-                    try
+                    if (evtFileName.IndexOf(".evtx") >= 0)
                     {
-                        processTemp.Start();
-                    } catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
+                        ProcessStartInfo startInfo = new ProcessStartInfo();
+                        startInfo.FileName = "cmd.exe";
+                        startInfo.Arguments = "/K " + Environment.GetFolderPath(Environment.SpecialFolder.Windows) + "\\system32\\eventvwr.exe " + textBox1.Text + " /l:C:\\Windows\\System32\\winevt\\Logs\\" + evtFileName;
+                        startInfo.RedirectStandardOutput = true;
+                        startInfo.RedirectStandardError = true;
+                        startInfo.UseShellExecute = false;
+                        startInfo.CreateNoWindow = true;
+
+                        Process processTemp = new Process();
+                        processTemp.StartInfo = startInfo;
+                        processTemp.EnableRaisingEvents = true;
+                        try
+                        {
+                            processTemp.Start();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message);
+                        }
                     }
                 }
             }

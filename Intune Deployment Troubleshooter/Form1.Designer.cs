@@ -49,6 +49,7 @@ namespace Intune_Deployment_Troubleshooter
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.syncConnectedDeviceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getConnectedDeviceInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getConnectedDeviceDiscoveredAppsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -60,10 +61,10 @@ namespace Intune_Deployment_Troubleshooter
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.treeView1 = new System.Windows.Forms.TreeView();
+            this.imageList2 = new System.Windows.Forms.ImageList(this.components);
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.panel3 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.getConnectedDeviceDiscoveredAppsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -184,7 +185,7 @@ namespace Intune_Deployment_Troubleshooter
             // 
             this.syncConnectedDeviceToolStripMenuItem.Enabled = false;
             this.syncConnectedDeviceToolStripMenuItem.Name = "syncConnectedDeviceToolStripMenuItem";
-            this.syncConnectedDeviceToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.syncConnectedDeviceToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.syncConnectedDeviceToolStripMenuItem.Text = "Sync Device";
             this.syncConnectedDeviceToolStripMenuItem.Click += new System.EventHandler(this.syncConnectedDeviceToolStripMenuItem_Click);
             // 
@@ -192,9 +193,17 @@ namespace Intune_Deployment_Troubleshooter
             // 
             this.getConnectedDeviceInfoToolStripMenuItem.Enabled = false;
             this.getConnectedDeviceInfoToolStripMenuItem.Name = "getConnectedDeviceInfoToolStripMenuItem";
-            this.getConnectedDeviceInfoToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.getConnectedDeviceInfoToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
             this.getConnectedDeviceInfoToolStripMenuItem.Text = "Device Info";
             this.getConnectedDeviceInfoToolStripMenuItem.Click += new System.EventHandler(this.getConnectedDeviceInfoToolStripMenuItem_Click);
+            // 
+            // getConnectedDeviceDiscoveredAppsToolStripMenuItem
+            // 
+            this.getConnectedDeviceDiscoveredAppsToolStripMenuItem.Enabled = false;
+            this.getConnectedDeviceDiscoveredAppsToolStripMenuItem.Name = "getConnectedDeviceDiscoveredAppsToolStripMenuItem";
+            this.getConnectedDeviceDiscoveredAppsToolStripMenuItem.Size = new System.Drawing.Size(162, 22);
+            this.getConnectedDeviceDiscoveredAppsToolStripMenuItem.Text = "Discovered Apps";
+            this.getConnectedDeviceDiscoveredAppsToolStripMenuItem.Click += new System.EventHandler(this.getConnectedDeviceDiscoveredAppsToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -279,7 +288,7 @@ namespace Intune_Deployment_Troubleshooter
             this.panel2.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel2.Location = new System.Drawing.Point(0, 58);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(200, 465);
+            this.panel2.Size = new System.Drawing.Size(305, 465);
             this.panel2.TabIndex = 11;
             // 
             // treeView1
@@ -287,15 +296,26 @@ namespace Intune_Deployment_Troubleshooter
             this.treeView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.treeView1.ImageIndex = 0;
+            this.treeView1.ImageList = this.imageList2;
             this.treeView1.Location = new System.Drawing.Point(5, 0);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(195, 460);
+            this.treeView1.SelectedImageIndex = 0;
+            this.treeView1.Size = new System.Drawing.Size(300, 460);
             this.treeView1.TabIndex = 0;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
+            // imageList2
+            // 
+            this.imageList2.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.imageList2.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList2.ImageStream")));
+            this.imageList2.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList2.Images.SetKeyName(0, "folder.bmp");
+            this.imageList2.Images.SetKeyName(1, "event.bmp");
+            // 
             // splitter1
             // 
-            this.splitter1.Location = new System.Drawing.Point(200, 58);
+            this.splitter1.Location = new System.Drawing.Point(305, 58);
             this.splitter1.Name = "splitter1";
             this.splitter1.Size = new System.Drawing.Size(5, 465);
             this.splitter1.TabIndex = 12;
@@ -305,9 +325,9 @@ namespace Intune_Deployment_Troubleshooter
             // 
             this.panel3.Controls.Add(this.dataGridView1);
             this.panel3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel3.Location = new System.Drawing.Point(205, 58);
+            this.panel3.Location = new System.Drawing.Point(310, 58);
             this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(580, 465);
+            this.panel3.Size = new System.Drawing.Size(475, 465);
             this.panel3.TabIndex = 13;
             // 
             // dataGridView1
@@ -347,16 +367,8 @@ namespace Intune_Deployment_Troubleshooter
             this.dataGridView1.RowHeadersVisible = false;
             this.dataGridView1.RowTemplate.Height = 25;
             this.dataGridView1.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dataGridView1.Size = new System.Drawing.Size(580, 460);
+            this.dataGridView1.Size = new System.Drawing.Size(475, 460);
             this.dataGridView1.TabIndex = 0;
-            // 
-            // getConnectedDeviceDiscoveredAppsToolStripMenuItem
-            // 
-            this.getConnectedDeviceDiscoveredAppsToolStripMenuItem.Enabled = false;
-            this.getConnectedDeviceDiscoveredAppsToolStripMenuItem.Name = "getConnectedDeviceDiscoveredAppsToolStripMenuItem";
-            this.getConnectedDeviceDiscoveredAppsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.getConnectedDeviceDiscoveredAppsToolStripMenuItem.Text = "Discovered Apps";
-            this.getConnectedDeviceDiscoveredAppsToolStripMenuItem.Click += new System.EventHandler(this.getConnectedDeviceDiscoveredAppsToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -419,5 +431,6 @@ namespace Intune_Deployment_Troubleshooter
         private ToolStripMenuItem findToolStripMenuItem;
         public ToolStripMenuItem removeToolStripMenuItem;
         private ToolStripMenuItem getConnectedDeviceDiscoveredAppsToolStripMenuItem;
+        private ImageList imageList2;
     }
 }

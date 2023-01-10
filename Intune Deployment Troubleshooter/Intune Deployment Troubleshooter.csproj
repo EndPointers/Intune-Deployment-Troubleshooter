@@ -8,6 +8,7 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <PackageProjectUrl>https://endpointers.wordpress.com/</PackageProjectUrl>
   </PropertyGroup>
 
   <ItemGroup>

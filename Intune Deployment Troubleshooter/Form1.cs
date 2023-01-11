@@ -51,7 +51,6 @@ namespace Intune_Deployment_Troubleshooter
             dt.Columns.Clear();
             ClearLogs();
             currentLogViewed = "";
-            timer1.Enabled = false;
             findToolStripMenuItem.Enabled = false;
             createToolStripMenuItem.Enabled = false;
             bs.RemoveFilter();
@@ -59,11 +58,6 @@ namespace Intune_Deployment_Troubleshooter
             syncConnectedDeviceToolStripMenuItem.Enabled = false;
             getConnectedDeviceInfoToolStripMenuItem.Enabled = false;
             getConnectedDeviceDiscoveredAppsToolStripMenuItem.Enabled = false;
-            watcherOffToolStripMenuItem.Enabled = false;
-            watcherOnToolStripMenuItem.Enabled = false;
-            watcherOffToolStripMenuItem.Checked = true;
-            watcherOnToolStripMenuItem.Checked = false;
-            toolStripStatusLabel2.Image = null;
             toolStripStatusLabel1.Text = "Not Connected";
         }
 
@@ -280,8 +274,6 @@ namespace Intune_Deployment_Troubleshooter
                 createToolStripMenuItem.Enabled = true;
                 findToolStripMenuItem.Enabled = true;
                 BuildMDMLogViewer(contents);
-                watcherOffToolStripMenuItem.Enabled = true;
-                watcherOnToolStripMenuItem.Enabled = true;
             }
             catch (Exception ex)
             {
@@ -378,34 +370,6 @@ namespace Intune_Deployment_Troubleshooter
         {
             bs.RemoveFilter();
             removeToolStripMenuItem.Enabled = false;
-        }
-
-        private void watcherOffToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if(watcherOnToolStripMenuItem.Checked) 
-            {
-                watcherOffToolStripMenuItem.Checked = true;
-                watcherOnToolStripMenuItem.Checked = false;
-            }
-            toolStripStatusLabel2.Image = null;
-            timer1.Enabled = false;
-        }
-
-        private void watcherOnToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (watcherOffToolStripMenuItem.Checked)
-            {
-                watcherOnToolStripMenuItem.Checked = true;
-                watcherOffToolStripMenuItem.Checked = false;
-            }
-            toolStripStatusLabel2.Image = imageList1.Images[3];
-            timer1.Enabled = true;
-        }
-
-        private void timer1_Tick(object sender, EventArgs e)
-        {
-            RefreshLogViewer(currentLogViewed);
-            dataGridView1.FirstDisplayedScrollingRowIndex = dataGridView1.RowCount - 1;
         }
 
         private void findToolStripMenuItem_Click(object sender, EventArgs e)

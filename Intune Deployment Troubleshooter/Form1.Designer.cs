@@ -43,19 +43,13 @@ namespace Intune_Deployment_Troubleshooter
             this.editToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.createToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.removeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.logsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.watcherOnToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.watcherOffToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.syncConnectedDeviceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getConnectedDeviceInfoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getConnectedDeviceDiscoveredAppsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.panel1 = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -65,6 +59,7 @@ namespace Intune_Deployment_Troubleshooter
             this.splitter1 = new System.Windows.Forms.Splitter();
             this.panel3 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -79,7 +74,6 @@ namespace Intune_Deployment_Troubleshooter
             this.fileToolStripMenuItem,
             this.findToolStripMenuItem1,
             this.editToolStripMenuItem,
-            this.logsToolStripMenuItem,
             this.toolsToolStripMenuItem,
             this.aboutToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -144,33 +138,6 @@ namespace Intune_Deployment_Troubleshooter
             this.removeToolStripMenuItem.Text = "Remove";
             this.removeToolStripMenuItem.Click += new System.EventHandler(this.removeToolStripMenuItem_Click);
             // 
-            // logsToolStripMenuItem
-            // 
-            this.logsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.watcherOnToolStripMenuItem,
-            this.watcherOffToolStripMenuItem});
-            this.logsToolStripMenuItem.Name = "logsToolStripMenuItem";
-            this.logsToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
-            this.logsToolStripMenuItem.Text = "Logs";
-            // 
-            // watcherOnToolStripMenuItem
-            // 
-            this.watcherOnToolStripMenuItem.Enabled = false;
-            this.watcherOnToolStripMenuItem.Name = "watcherOnToolStripMenuItem";
-            this.watcherOnToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.watcherOnToolStripMenuItem.Text = "Watcher On";
-            this.watcherOnToolStripMenuItem.Click += new System.EventHandler(this.watcherOnToolStripMenuItem_Click);
-            // 
-            // watcherOffToolStripMenuItem
-            // 
-            this.watcherOffToolStripMenuItem.Checked = true;
-            this.watcherOffToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.watcherOffToolStripMenuItem.Enabled = false;
-            this.watcherOffToolStripMenuItem.Name = "watcherOffToolStripMenuItem";
-            this.watcherOffToolStripMenuItem.Size = new System.Drawing.Size(138, 22);
-            this.watcherOffToolStripMenuItem.Text = "Watcher Off";
-            this.watcherOffToolStripMenuItem.Click += new System.EventHandler(this.watcherOffToolStripMenuItem_Click);
-            // 
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -215,27 +182,12 @@ namespace Intune_Deployment_Troubleshooter
             // statusStrip1
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripStatusLabel1,
-            this.toolStripStatusLabel2});
+            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 523);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(785, 22);
             this.statusStrip1.TabIndex = 8;
             this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(88, 17);
-            this.toolStripStatusLabel1.Text = "Not Connected";
-            // 
-            // toolStripStatusLabel2
-            // 
-            this.toolStripStatusLabel2.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripStatusLabel2.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(682, 17);
-            this.toolStripStatusLabel2.Spring = true;
             // 
             // imageList1
             // 
@@ -245,12 +197,6 @@ namespace Intune_Deployment_Troubleshooter
             this.imageList1.Images.SetKeyName(0, "error.bmp");
             this.imageList1.Images.SetKeyName(1, "info.bmp");
             this.imageList1.Images.SetKeyName(2, "warning.bmp");
-            this.imageList1.Images.SetKeyName(3, "watcher.bmp");
-            // 
-            // timer1
-            // 
-            this.timer1.Interval = 15000;
-            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // panel1
             // 
@@ -370,6 +316,12 @@ namespace Intune_Deployment_Troubleshooter
             this.dataGridView1.Size = new System.Drawing.Size(475, 460);
             this.dataGridView1.TabIndex = 0;
             // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(88, 17);
+            this.toolStripStatusLabel1.Text = "Not Connected";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -409,16 +361,10 @@ namespace Intune_Deployment_Troubleshooter
         private ToolStripMenuItem toolsToolStripMenuItem;
         private ToolStripMenuItem syncConnectedDeviceToolStripMenuItem;
         private StatusStrip statusStrip1;
-        private ToolStripStatusLabel toolStripStatusLabel1;
         private ToolStripMenuItem editToolStripMenuItem;
         private ToolStripMenuItem createToolStripMenuItem;
         private ImageList imageList1;
         private ToolStripMenuItem getConnectedDeviceInfoToolStripMenuItem;
-        private ToolStripMenuItem logsToolStripMenuItem;
-        private ToolStripMenuItem watcherOnToolStripMenuItem;
-        private ToolStripMenuItem watcherOffToolStripMenuItem;
-        private System.Windows.Forms.Timer timer1;
-        private ToolStripStatusLabel toolStripStatusLabel2;
         private Panel panel1;
         private Button button1;
         private TextBox textBox1;
@@ -432,5 +378,6 @@ namespace Intune_Deployment_Troubleshooter
         public ToolStripMenuItem removeToolStripMenuItem;
         private ToolStripMenuItem getConnectedDeviceDiscoveredAppsToolStripMenuItem;
         private ImageList imageList2;
+        private ToolStripStatusLabel toolStripStatusLabel1;
     }
 }

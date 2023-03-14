@@ -111,7 +111,7 @@ namespace Intune_Deployment_Troubleshooter
 
                     foreach (string eventLogs in EventViewerLogs)
                     {
-                        DirectoryInfo d2 = new DirectoryInfo(@"\\FLO-L-CG0391G0S\\C$\\Windows\\System32\\winevt\\Logs");
+                        DirectoryInfo d2 = new DirectoryInfo(@"\\" + host + "\\C$\\Windows\\System32\\winevt\\Logs");
 
                         FileInfo[] Files2 = d2.GetFiles("*.evtx");
 

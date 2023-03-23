@@ -141,6 +141,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
     }
@@ -359,17 +367,6 @@
         }
         "Folder"
         {
-            "{1525181F-901A-416C-8A58-119130FE478E}:_5653A6C1DE114A758BCF88BAB06F0937"
-            {
-            "Name" = "8:#1919"
-            "AlwaysCreate" = "11:FALSE"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Property" = "8:ProgramMenuFolder"
-                "Folders"
-                {
-                }
-            }
             "{3C67513D-01DD-4637-8A68-80971EB9504F}:_5E615EA9BD2444788808E19631E6A8CD"
             {
             "DefaultLocation" = "8:[ProgramFiles64Folder][Manufacturer]\\[ProductName]"
@@ -380,17 +377,6 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
-                    "{9EF0B969-E518-4E46-987F-47570745A589}:_5E9FF807B5F04F0C9A08986656965B19"
-                    {
-                    "Name" = "8:Logs"
-                    "AlwaysCreate" = "11:TRUE"
-                    "Condition" = "8:"
-                    "Transitive" = "11:FALSE"
-                    "Property" = "8:_F663123F25E54BE1A3B669850466A266"
-                        "Folders"
-                        {
-                        }
-                    }
                     "{9EF0B969-E518-4E46-987F-47570745A589}:_6E9C97589E6E4BE18A18E9B794658E2F"
                     {
                     "Name" = "8:scripts"
@@ -415,17 +401,6 @@
                     }
                 }
             }
-            "{1525181F-901A-416C-8A58-119130FE478E}:_E3F94588B0F34F73B70F19F4271F0D88"
-            {
-            "Name" = "8:#1916"
-            "AlwaysCreate" = "11:FALSE"
-            "Condition" = "8:"
-            "Transitive" = "11:FALSE"
-            "Property" = "8:DesktopFolder"
-                "Folders"
-                {
-                }
-            }
         }
         "LaunchCondition"
         {
@@ -443,7 +418,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Intune Deployment Troubleshooter"
         "ProductCode" = "8:{02F6214F-AA0E-41EE-877C-7D1CD0560E47}"
-        "PackageCode" = "8:{6CEB917E-FDE1-4D21-8DE8-EC225880CCA5}"
+        "PackageCode" = "8:{33620F8F-F18C-4D12-80C5-50D421CA31EB}"
         "UpgradeCode" = "8:{B4ED60E6-B780-4DEA-8F74-A8C2B76EF500}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

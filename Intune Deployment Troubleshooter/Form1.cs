@@ -26,11 +26,13 @@ namespace Intune_Deployment_Troubleshooter
         public static DataTable dt = new DataTable();
         public static BindingSource bs = new BindingSource();
         private static string currentLogViewed = "";
+        public static string UserLogPath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\EndPointers\\Logs\\";
 
         public Form1()
         {
             InitializeComponent();
             textBox1.KeyUp += textBox1_KeyUp;
+            System.IO.Directory.CreateDirectory(UserLogPath);
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -82,7 +84,7 @@ namespace Intune_Deployment_Troubleshooter
 
                     foreach (FileInfo file in Files)
                     {
-                        File.Copy(file.FullName, Directory.GetCurrentDirectory() + "\\Logs\\" + file.Name, true);
+                        File.Copy(file.FullName, UserLogPath + "\\" + file.Name, true);
                         treeView1.Nodes["root"].Nodes["mdm"].Nodes.Add(file.Name,file.Name,1,1);
                     }
 
@@ -270,7 +272,7 @@ namespace Intune_Deployment_Troubleshooter
             dt.Columns.Clear();
             try
             {
-                contents = File.ReadAllText(Directory.GetCurrentDirectory() + "\\Logs\\" + log);
+                contents = File.ReadAllText(UserLogPath + log);
                 createToolStripMenuItem.Enabled = true;
                 findToolStripMenuItem.Enabled = true;
                 BuildMDMLogViewer(contents);
@@ -359,7 +361,7 @@ namespace Intune_Deployment_Troubleshooter
 
         private void ClearLogs()
         {
-            DirectoryInfo di = new DirectoryInfo(Directory.GetCurrentDirectory() + "\\Logs");
+            DirectoryInfo di = new DirectoryInfo(UserLogPath);
             foreach (FileInfo file in di.GetFiles())
             {
                 file.Delete();

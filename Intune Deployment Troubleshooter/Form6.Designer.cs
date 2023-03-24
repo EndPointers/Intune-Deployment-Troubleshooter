@@ -124,6 +124,7 @@
             this.Controls.Add(this.statusStrip1);
             this.MinimizeBox = false;
             this.Name = "Form6";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Discovered Apps";
             this.TopMost = true;
